@@ -8,7 +8,7 @@ fn handle_command() {
 
     match command {
         _ => {
-            println!("{}: Command not found", command);
+            println!("{}: command not found", command);
         }
     }
 }
