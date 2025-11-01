@@ -2,7 +2,7 @@
 use std::io::{self, Write};
 
 fn handle_command_not_found(command: &str, context: Option<&str>) {
-    println!("{}: {} not found", command, context.unwrap_or(""));
+    println!("{}: {}not found", command, context.unwrap_or(""));
 }
 
 fn handle_command(command: &str, args: Vec<&str>) {
@@ -26,7 +26,7 @@ fn handle_command(command: &str, args: Vec<&str>) {
         return;
     }
 
-    handle_command_not_found(command, Some("command"));
+    handle_command_not_found(command, Some("command "));
 }
 
 fn handle_inputs() {
