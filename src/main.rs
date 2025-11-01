@@ -13,9 +13,15 @@ fn handle_command() {
     }
 }
 
-fn main() {
-    // TODO: Uncomment the code below to pass the first stage
-    print!("$ ");
+fn display_prompt(promt: String) {
+    print!("{} ", promt);
     io::stdout().flush().unwrap();
-    handle_command();
+}
+
+fn main() {
+    loop {
+        let prompt = String::from("$");
+        display_prompt(prompt);
+        handle_command();
+    }
 }
