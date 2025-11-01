@@ -1,16 +1,35 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
 
+fn handle_command_not_found(command: &str) {
+    println!("{}: command not found", command);
+}
+
 fn handle_command(command: String) {
     let mut command_and_args = command.split_whitespace();
     let command = command_and_args.next().unwrap();
     let args: Vec<&str> = command_and_args.collect();
 
+    let built_in_commands = vec!["echo", "cd", "exit"];
+
+    // handle type command
+    if command == "type" {
+        for arg in args {
+            if built_in_commands.contains(&arg) {
+                println!("{} is a built-in command", arg);
+            } else {
+                handle_command_not_found(arg);
+            }
+        }
+        return;
+    }
+
+    // handle built-in commands
     if command == "echo" {
         println!("{}", args.join(" "));
-    } else {
-        println!("{}: command not found", command);
+        return;
     }
+    handle_command_not_found(command);
 }
 
 fn handle_inputs() {
