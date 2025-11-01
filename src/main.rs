@@ -7,6 +7,9 @@ fn handle_command() {
     let command = command.trim();
 
     match command {
+        "exit" => {
+            std::process::exit(0);
+        }
         _ => {
             println!("{}: command not found", command);
         }
