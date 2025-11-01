@@ -6,11 +6,13 @@ fn handle_command() {
     io::stdin().read_line(&mut command).unwrap();
     let command = command.trim();
 
-    match command {
-        "exit" => {
+    const EXIT_COMMAND: &str = "exit";
+
+    match command.contains(EXIT_COMMAND) {
+        true => {
             std::process::exit(0);
         }
-        _ => {
+        false => {
             println!("{}: command not found", command);
         }
     }
