@@ -6,7 +6,7 @@ fn handle_command_not_found(command: &str) {
 }
 
 fn handle_command(command: &str, args: Vec<&str>) {
-    let built_in_commands = vec!["echo", "cd", "exit"];
+    let built_in_commands = vec!["echo", "cd", "exit", "type"];
 
     // handle type command
     if command == "type" {
