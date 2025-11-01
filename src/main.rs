@@ -1,8 +1,8 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
 
-fn handle_command_not_found(command: &str) {
-    println!("{}: command not found", command);
+fn handle_command_not_found(command: &str, context: Option<&str>) {
+    println!("{}: {} not found", command, context.unwrap_or(""));
 }
 
 fn handle_command(command: &str, args: Vec<&str>) {
@@ -14,7 +14,7 @@ fn handle_command(command: &str, args: Vec<&str>) {
             if built_in_commands.contains(&arg) {
                 println!("{} is a shell builtin", arg);
             } else {
-                handle_command_not_found(arg);
+                handle_command_not_found(arg, None);
             }
         }
         return;
@@ -26,7 +26,7 @@ fn handle_command(command: &str, args: Vec<&str>) {
         return;
     }
 
-    handle_command_not_found(command);
+    handle_command_not_found(command, Some("command"));
 }
 
 fn handle_inputs() {
