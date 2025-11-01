@@ -16,7 +16,7 @@ fn handle_command(command: String) {
     if command == "type" {
         for arg in args {
             if built_in_commands.contains(&arg) {
-                println!("{} is a built-in command", arg);
+                println!("{} is a shell builtin", arg);
             } else {
                 handle_command_not_found(arg);
             }
