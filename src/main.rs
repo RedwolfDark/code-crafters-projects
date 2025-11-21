@@ -24,11 +24,14 @@ fn handle_command(command: &str, args: Vec<&str>) {
                 handle_command_not_found(*arg, None);
             }
         }
+
+        return;
     }
 
     // handle built-in commands
     if command == "echo" {
         println!("{}", args.join(" "));
+        return;
     }
 
     handle_command_not_found(command, Some("command "));
@@ -65,22 +68,19 @@ fn check_command_in_path(command: &str) -> (bool, String) {
         for p in path.split(':') {
             let (found, fullpath) = check_command_in_folder(command, p);
             if found {
-                (true, fullpath);
+                return (true, fullpath);
             }
         }
-        (false, String::new())
-    } else {
-        (false, String::new())
     }
+
+    (false, String::new())
 }
 
 fn check_command_in_folder(command: &str, folder: &str) -> (bool, String) {
     let path = Path::new(folder).join(command);
 
-    println!("Checking path: {:?}", path);
-
     if !path.exists() {
-        (false, String::new());
+        return (false, String::new());
     }
 
     if let Ok(metadata) = fs::metadata(&path) {
@@ -89,7 +89,7 @@ fn check_command_in_folder(command: &str, folder: &str) -> (bool, String) {
 
         // consider the file executable if any execute bit is set
         if mode & EXECUTABLE_PERMISSION != 0 {
-            (true, String::from(path.to_str().unwrap()));
+            return (true, String::from(path.to_str().unwrap()));
         }
     }
 
