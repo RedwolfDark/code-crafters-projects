@@ -7,7 +7,7 @@ use std::process::Command;
 
 const EXIT_COMMAND: &str = "exit";
 const EXECUTABLE_PERMISSION: u32 = 0o111;
-const BUILTIN_COMMANDS: [&str; 4] = ["echo", "cd", "exit", "type"];
+const BUILTIN_COMMANDS: [&str; 5] = ["echo", "cd", "exit", "type", "pwd"];
 
 fn _handle_command_not_found(command: &str, context: Option<&str>) {
     println!("{}: {}not found", command, context.unwrap_or(""));
