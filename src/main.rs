@@ -17,22 +17,8 @@ fn _handle_command(command: &str, args: Vec<&str>) {
     match command {
         "type" => _type_command(args),
         "echo" => _echo_command(args),
-        "pwd" => {
-            if let Ok(current_dir) = current_dir() {
-                println!("{}", current_dir.display());
-            }
-        }
-        "cd" => {
-            let target_dir = if args.is_empty() {
-                var("HOME").unwrap_or_else(|_| String::from("/"))
-            } else {
-                args[0].to_string()
-            };
-
-            if let Err(e) = set_current_dir(&target_dir) {
-                println!("cd: {}: {}", target_dir, e);
-            }
-        }
+        "pwd" => _pwd_command(),
+        "cd" => _cd_command(args),
         _ => _execute_command(command, args),
     }
 }
@@ -66,6 +52,28 @@ fn _type_command(args: Vec<&str>) {
         } else {
             _handle_command_not_found(*arg, None);
         }
+    }
+}
+
+fn _pwd_command() {
+    if let Ok(current_dir) = current_dir() {
+        println!("{}", current_dir.display());
+    }
+}
+
+fn _cd_command(args: Vec<&str>) {
+    let target_dir = if args.is_empty() {
+        var("HOME").unwrap_or_else(|_| String::from("/"))
+    } else {
+        args[0].to_string()
+    };
+
+    if let Err(e) = set_current_dir(&target_dir) {
+        let mut error_message = e.to_string();
+        if let Some(stripped) = error_message.strip_suffix(" (os error 2)") {
+            error_message = stripped.to_string()
+        }
+        println!("cd: {}: {}", target_dir, error_message);
     }
 }
 
