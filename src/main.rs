@@ -22,10 +22,10 @@ fn _handle_command(command: &str, args: Vec<&str>) {
 }
 
 fn _execute_command(_command: &str, _args: Vec<&str>) {
-    let (is_command_in_path, command_executable) = _check_command_in_path(_command);
+    let (is_command_in_path, _) = _check_command_in_path(_command);
 
     if is_command_in_path {
-        let mut command = Command::new(command_executable);
+        let mut command = Command::new(_command);
         let command_with_args = command.args(&_args);
 
         if let Ok(mut command_result) = command_with_args.spawn() {
