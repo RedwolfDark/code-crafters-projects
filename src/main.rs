@@ -1,4 +1,4 @@
-use std::env::{current_dir, var};
+use std::env::{current_dir, set_current_dir, var};
 use std::fs::{self};
 use std::io::{self, Write};
 use std::os::unix::fs::PermissionsExt;
@@ -20,6 +20,17 @@ fn _handle_command(command: &str, args: Vec<&str>) {
         "pwd" => {
             if let Ok(current_dir) = current_dir() {
                 println!("{}", current_dir.display());
+            }
+        }
+        "cd" => {
+            let target_dir = if args.is_empty() {
+                var("HOME").unwrap_or_else(|_| String::from("/"))
+            } else {
+                args[0].to_string()
+            };
+
+            if let Err(e) = set_current_dir(&target_dir) {
+                println!("cd: {}: {}", target_dir, e);
             }
         }
         _ => _execute_command(command, args),
