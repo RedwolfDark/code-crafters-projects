@@ -1,4 +1,4 @@
-use std::env::var;
+use std::env::{current_dir, var};
 use std::fs::{self};
 use std::io::{self, Write};
 use std::os::unix::fs::PermissionsExt;
@@ -17,6 +17,11 @@ fn _handle_command(command: &str, args: Vec<&str>) {
     match command {
         "type" => _type_command(args),
         "echo" => _echo_command(args),
+        "pwd" => {
+            if let Ok(current_dir) = current_dir() {
+                println!("{}", current_dir.display());
+            }
+        }
         _ => _execute_command(command, args),
     }
 }
