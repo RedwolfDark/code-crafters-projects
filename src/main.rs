@@ -62,11 +62,26 @@ fn _pwd_command() {
 }
 
 fn _cd_command(args: Vec<&str>) {
-    let target_dir = if args.is_empty() {
+    let mut target_dir = if args.is_empty() {
         var("HOME").unwrap_or_else(|_| String::from("/"))
     } else {
         args[0].to_string()
     };
+
+    let mut path = target_dir.as_str().chars();
+    let first_char = path.next().unwrap_or('\0');
+    let path_rest: String = path.collect();
+
+    match first_char {
+        '~' => {
+            if let Ok(home_dir) = var("HOME") {
+                target_dir = format!("{}{}", home_dir, path_rest);
+            } else {
+                return;
+            }
+        }
+        _ => {}
+    }
 
     if let Err(e) = set_current_dir(&target_dir) {
         let mut error_message = e.to_string();
